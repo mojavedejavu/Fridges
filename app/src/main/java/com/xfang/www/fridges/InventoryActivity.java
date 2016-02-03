@@ -15,8 +15,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.xfang.www.fridges.dummy.DummyContent;
+import com.xfang.www.fridges.model.FoodItem;
 
 import java.util.List;
 
@@ -68,15 +68,14 @@ public class InventoryActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(DummyContent.ITEMS));
+        recyclerView.setAdapter(new FoodAdapter(DummyContent.ITEMS));
     }
 
-    public class SimpleItemRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
+    public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
 
-        private final List<DummyContent.FoodItem> mValues;
+        private final List<FoodItem> mValues;
 
-        public SimpleItemRecyclerViewAdapter(List<DummyContent.FoodItem> items) {
+        public FoodAdapter(List<FoodItem> items) {
             mValues = items;
         }
 
@@ -90,14 +89,14 @@ public class InventoryActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
-            holder.mContentView.setText(mValues.get(position).content);
+            holder.mContentView.setText(mValues.get(position).toString());
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mTwoPane) {
                         Bundle arguments = new Bundle();
-                        arguments.putString(DetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        arguments.putString(DetailFragment.ARG_ITEM_ID, String.valueOf(holder.mItem.itemId));
                         DetailFragment fragment = new DetailFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
@@ -106,7 +105,7 @@ public class InventoryActivity extends AppCompatActivity {
                     } else {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, DetailActivity.class);
-                        intent.putExtra(DetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        intent.putExtra(DetailFragment.ARG_ITEM_ID, holder.mItem.itemId);
 
                         context.startActivity(intent);
                     }
@@ -123,7 +122,7 @@ public class InventoryActivity extends AppCompatActivity {
             public final View mView;
             public final ImageView mImageView;
             public final TextView mContentView;
-            public DummyContent.FoodItem mItem;
+            public FoodItem mItem;
 
             public ViewHolder(View view) {
                 super(view);
