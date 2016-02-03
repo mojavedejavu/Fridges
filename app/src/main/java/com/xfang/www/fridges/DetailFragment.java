@@ -27,7 +27,7 @@ public class DetailFragment extends Fragment {
     /**
      * The dummy content this fragment is presenting.
      */
-    private DummyContent.DummyItem mItem;
+    private DummyContent.FoodItem mItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the

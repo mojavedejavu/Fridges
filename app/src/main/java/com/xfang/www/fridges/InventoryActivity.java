@@ -12,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -38,7 +39,7 @@ public class InventoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item_list);
+        setContentView(R.layout.inventory_activity);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -48,16 +49,16 @@ public class InventoryActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Opening the camera", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
 
-        View recyclerView = findViewById(R.id.item_list);
+        View recyclerView = findViewById(R.id.inventory_recycler_view);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
 
-        if (findViewById(R.id.item_detail_container) != null) {
+        if (findViewById(R.id.food_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
             // If this view is present, then the
@@ -73,23 +74,22 @@ public class InventoryActivity extends AppCompatActivity {
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final List<DummyContent.DummyItem> mValues;
+        private final List<DummyContent.FoodItem> mValues;
 
-        public SimpleItemRecyclerViewAdapter(List<DummyContent.DummyItem> items) {
+        public SimpleItemRecyclerViewAdapter(List<DummyContent.FoodItem> items) {
             mValues = items;
         }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_list_content, parent, false);
+                    .inflate(R.layout.inventory_item, parent, false);
             return new ViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
-            holder.mIdView.setText(mValues.get(position).id);
             holder.mContentView.setText(mValues.get(position).content);
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +101,7 @@ public class InventoryActivity extends AppCompatActivity {
                         DetailFragment fragment = new DetailFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.item_detail_container, fragment)
+                                .replace(R.id.food_detail_container, fragment)
                                 .commit();
                     } else {
                         Context context = v.getContext();
@@ -121,14 +121,14 @@ public class InventoryActivity extends AppCompatActivity {
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             public final View mView;
-            public final TextView mIdView;
+            public final ImageView mImageView;
             public final TextView mContentView;
-            public DummyContent.DummyItem mItem;
+            public DummyContent.FoodItem mItem;
 
             public ViewHolder(View view) {
                 super(view);
                 mView = view;
-                mIdView = (TextView) view.findViewById(R.id.id);
+                mImageView = (ImageView) view.findViewById(R.id.food_image);
                 mContentView = (TextView) view.findViewById(R.id.content);
             }
 
