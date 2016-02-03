@@ -7,6 +7,7 @@ public class FoodItem {
     public static final int CATEGORY_DAIRY = 2;
     public static final int CATEGORY_MEAT = 3;
 
+    public static final int STATUS_TYPES = 3;
     public static final int STATUS_FUCK_TON = 0;
     public static final int STATUS_ALMOST_OUT = 1;
     public static final int STATUS_OUT = 2;
@@ -27,9 +28,35 @@ public class FoodItem {
 
     @Override
     public String toString() {
-        return itemId + " " +
-                name + " " +
-                category + " " +
-                status;
+
+        String categoryString;
+        switch (category){
+            case CATEGORY_VEGETABLES:
+                categoryString = "vegetables";
+                break;
+            case CATEGORY_FRUITS:
+                categoryString = "fruits";
+                break;
+            default:
+                categoryString = "default category";
+        }
+
+        String statusString;
+        switch (category){
+            case STATUS_FUCK_TON:
+                statusString = "fuck ton";
+                break;
+            case STATUS_ALMOST_OUT:
+                statusString = "almost out";
+                break;
+            case STATUS_OUT:
+                statusString = "OUT";
+                break;
+            default:
+                statusString = "default status";
+        }
+        return name + " | " +
+                categoryString + " | " +
+                statusString;
     }
 }
